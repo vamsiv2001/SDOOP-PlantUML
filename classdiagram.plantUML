@@ -1,0 +1,115 @@
+@startuml class_diagram
+
+class  FoodOrderingApp
+{
+    -Workers : List
+    -Customers : List
+    -Sort
+    -Restaurants : List
+    -Login: Bool
+    +CustomerSignUp() : String
+    +Searching() : Bool
+    +AddToCart() : Double
+    +Checkout() : Double
+    +OrderProcessing() :Bool
+    +OrderClosed() : Void
+
+    
+}
+
+class CustomerDataset
+{
+    -Name : String
+    -Location : String
+    -MobileNumber : Long
+    -PreviousOrder : Int
+    -PlaceOrder(): Void
+    -Feedback(): Int
+}
+
+class Invoice
+{
+-BillNumber : Int
+-GenerateReceipt()
+}
+
+enum PaymentOption
+{
+    Cash
+    Card
+    Netbanking
+    UPI
+}
+
+class RestaurantDataset
+{
+    -RegisteredNumber : Int
+    -WorkingHours : Double
+    -Location : String
+    -FoodItems : List
+    -ReceiveOrder()
+    -OrderClosed()
+}
+
+ enum RestaurantSortBy
+{
+    AverageUserRating
+    VegOnly
+    DeliveryTime
+}
+
+class TrackOrder
+{
+    -OrderNumber : Int
+    -Customer : Customer Dataset
+    -Restaurant : RestaurantDataset
+    -OrderStatus : String
+    -OrderSuccessful() : Bool
+
+}
+
+class Feedback
+{
+    +Opinion : String
+    +Rating : Double
+    -SendFeedback()
+    +ReceiveFeedback()
+}
+
+class WorkersDataSet
+{
+-Name : String
+-RegisteredNumber : Int
+-MobileNumber : Long
+-OverallCustomerRating: Double
+}
+
+class FoodItems
+{
+    +Name : String
+    +Price : Double
+    +Description : String
+}
+
+Class Cart
+{
+-MinAmt: Int
+-FoodItems : String
++Checkout() : bool
+}
+
+ CustomerDataset"1" .-down-* "1..*"  FoodOrderingApp
+ CustomerDataset "1"-down- "1" Invoice
+ RestaurantDataset"1".-left-> "1" FoodOrderingApp
+ TrackOrder "1".-left-* "1" FoodOrderingApp
+ TrackOrder -up- CustomerDataset
+ CustomerDataset "1"-down- "1" Feedback
+ WorkersDataSet "1.. " .-left--* " 1*" FoodOrderingApp
+ PaymentOption "1".-up->"1" Invoice
+ WorkersDataSet "1" -down- "1" Feedback
+ Cart.-up->FoodItems
+ Cart "1" .-right-* "1" FoodOrderingApp
+ FoodItems "1..".-down- "1" RestaurantDataset
+ RestaurantSortBy .-left-> FoodOrderingApp
+ 
+@enduml

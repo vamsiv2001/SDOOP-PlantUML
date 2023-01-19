@@ -1,0 +1,38 @@
+@startuml activity_diagram1(b)
+
+(A)
+
+if(Payment) then (Cash Payment)
+else(Online Payment) 
+partition "Online Transaction"{ 
+    if()
+    :PayThrough NetBanking/E-Wallet;
+    else()
+    :Pay through Debit/Credit Card;
+    endif
+    :Submit Authorization Request;
+    :Authorization Of Payment;
+}
+endif
+
+if (Payment Successful) then (yes)
+    :GenreateInvoice;
+    :OrderRecievedByRestaurant;
+    fork
+    :OrderAccpetcance;
+    fork again
+    :RiderAssigned;
+    end fork
+    :OrderPrepared;
+    :OrderDispatched;
+    :OrderDelievered;
+    
+else (No)
+    :GenerateErrorMessage;
+    :InitiateRefund;
+endif 
+
+:GiveFeedback;
+stop 
+
+@enduml 

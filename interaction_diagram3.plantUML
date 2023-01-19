@@ -1,0 +1,33 @@
+@startuml interaction_diagram_3
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+participant "M1:Mobile" order 10
+participant "C1:Customer" order 20
+participant "F1:FoodDelieveryApp" order 30
+participant "P1:Price" order 40
+participant "R1:Rating" order 50
+participant "L1:Location" order 60
+participant "T1:Time" order 70
+
+"M1:Mobile" -> "C1:Customer" : 1.LaunchApp
+"C1:Customer" -> "F1:FoodDelieveryApp" : 2.FilterBy(SortType)
+
+group SortByType
+"F1:FoodDelieveryApp" -->> "P1:Price" : 3.<<create>>\n[If Type is P1]
+"P1:Price" -> "P1:Price" : 4. Sort(RestaurantType)
+"P1:Price" -->> "F1:FoodDelieveryApp" : 5.Sorted
+"F1:FoodDelieveryApp" -->> "R1:Rating" : 6.<<create>>\n[If Type is R1]
+"R1:Rating" -> "R1:Rating" : 7. Sort(RestaurantType)
+"R1:Rating" -->> "F1:FoodDelieveryApp" : 8.Sorted
+"F1:FoodDelieveryApp" -->> "L1:Location" : 9.<<create>>\n[If Type is L1]
+"L1:Location" -> "L1:Location" : 10. Sort(RestaurantType)
+"L1:Location" -->> "F1:FoodDelieveryApp" : 11. Sorted
+"F1:FoodDelieveryApp" -->> "T1:Time" : 12.<<create>>\n[If Type is T1]
+"T1:Time" -> "T1:Time" : 13. Sort(RestaurantType)
+"T1:Time" -->> "F1:FoodDelieveryApp" : 14. Sorted
+
+end
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 15.Sorted
+@enduml

@@ -1,0 +1,39 @@
+@startuml use_case
+
+left to right direction
+skinparam PackageStle rectangle
+
+actor WorkerDatabase
+actor CustomerDatabase
+actor Customer 
+actor RestaurantManagementSystem
+actor AppManagementSystem
+
+rectangle FoodDelieveryApp{
+(Order Delievered) - Customer
+Customer -- (Register)
+(Verification) <. (Register) : <<include>>
+(Register) <|-- (Log In)
+(Register) <|-- (Sign Up)
+(Provide Details) <. (Sign Up) : <<include>>
+(Update Profile) <. (Verification) : <<extends>>
+(Detect Location) <. (Update Profile) : <<extends>>
+(Change Sorting of Restaurants) <. (Display Restaurants) : <<extends>>
+(Filtering Restaurants) <. (Display Restaurants) : <<extends>>
+(Payment) <. (Order Placed) : <<include>>
+(Order Placed) <|-- (Order Failed)
+(Order Placed) <|-- (Order Confirmed)
+(Payment) <|-- (Cash On Delievery) 
+(Payment) <|-- (Prepaid) 
+(Allot a Worker) - WorkerDatabase
+(Cashback Initiated) <. (Order Failed) : <<extends>>
+RestaurantManagementSystem - (Order Failed)
+(Order Closed) --- AppManagementSystem : updates
+(Order Closed) -- CustomerDatabase
+(Order Closed) <. (Order Delievered) : <<include>>
+(Feedback) <.. (Order Delievered) : <<extends
+(Order Delievered) - (Allot a Worker)
+}
+
+
+@enduml

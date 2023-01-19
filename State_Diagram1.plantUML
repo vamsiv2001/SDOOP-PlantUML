@@ -1,0 +1,62 @@
+@startuml State_Diagram1
+
+state "Food Delievery App \nInactive" as fdai
+
+[*] -right-> fdai
+fdai -right-> [*] 
+hide empty description
+state "Food Delievery App \nActive" as fdaa {
+
+   [*]-right-> CU
+   state "SignUp" as su {
+      state "Using Email/PhoneNo" as op1{
+      op1 : EmailId
+      op1 : PhoneNo
+      op1 : Password
+      op1 : confirmPassword
+      op1 : OTPVerification
+      }
+      [*] -down-> op1
+      state "Using SocialAccount" as op2{
+         op2 : UserID 
+         op2 : Password
+         op2 : OTPVerification
+      }
+      [*] -down-> op2 
+      state "Verification" as v1
+      op1 -> v1
+      op2 -> v1
+      state "Database" as db {
+         db : Username
+         db : Password
+      }
+      v1 -right->db : Store
+   }
+   
+   state "Login" as l {
+      state "Login Details" as ld
+      ld : Username 
+      ld : Password 
+      [*] -right-> ld
+      state "Verification" as v2
+      ld -right-> v2 : DetailsEntered
+      v2 -up-> db : VerifyDetails
+      db -down-> v2 : Authentication
+   }
+   l -down-> [*] : Login Successful Continue
+    
+   state "Customer" as CU
+      CU -right-> l : SignIn
+      v2 -up-> FP : Login Unsuccessful
+      state "Forgot Password" as FP{
+            FP -UP-> CU : reset password
+      }
+      CU -down-> su : newRegistration/loginUnsuccessful
+      su -up->CU :RegistrationSuccessful
+} 
+
+fdai -down-> fdaa[H]: Open App
+fdaa[H] -right-> fdaa
+fdaa -up-> [*] :EXIT App
+
+@enduml

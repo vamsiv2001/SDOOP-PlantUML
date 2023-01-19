@@ -1,0 +1,78 @@
+@startuml State_Diagram2
+
+state "Food Delievery App \nInactive" as fdai
+
+[*] -right-> fdai
+fdai -right-> [*] 
+
+state "Food Delievery App \nActive" as fdaa {
+    
+    [*] -right-> CU
+    state "Customer" as CU{
+        CU -right-> S : Logged IN
+    }
+    state "Search" as S{
+        hide empty description
+        [*]-down-> SR : SearchBy
+        [*] -down-> SIC : SearchBy
+        state "SearchByRestaurants" as SR{
+            [*]---> P : SortBy
+            state "Price" as P{
+                P : priceRange
+            }
+            [*]---> R : SortBy
+            state "Rating" as R{
+                R : 5(Excellent)
+                R : 4 andAbove(VeryGood)
+                R : 3 andAbove(Average)
+                R : 2 andAbove(belowAverage)
+                R : 1 and Above(Bad)
+
+            }
+            [*]---> L :SortBy
+            state "Location" as L
+            [*]---> T :SortBy
+            state "Time" as T
+
+        }
+        state "SearchByFoodItem/FoodCategory" as SIC{
+            [*]--> FI : SortBy
+            state "FoodItem" as FI{
+                FI : foodItem1
+                FI : foodItem2
+                FI : foodItemN
+            }
+            [*]--> FC : SortBy
+            state "FoodCatergory" as FC{
+                FC : foodCategory1
+                FC : foodCategory2
+                FC : foddCategoryN
+            }
+            
+        }
+        state "Menu" as M{
+        }
+        state "FoodItemDetails" as FID{
+        }
+        FID -> FID : addToCart
+        M -right-> FID : showFoodDetails
+        FID -left-> M  : returnToMenu
+    }
+    SR -down-> M : Filtered
+    SIC -down-> M :Filtered
+    state "CartContent" as CC{
+        CC : foodItem1
+        CC : foodItem2
+        CC : foodItemN
+    }
+    S --> CC : showCartContent
+    CC --> CC : Add/RemoveItems
+    CC --> [*] : Continue
+}
+ 
+fdai -down-> fdaa[H]: Open App
+fdaa[H] -right-> fdaa
+fdaa -up-> [*] :EXIT App
+
+
+@enduml

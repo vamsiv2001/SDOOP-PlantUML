@@ -1,0 +1,14 @@
+@startuml deployment_diagram
+
+node Customer
+node FoodDeliveryApp
+node Manager
+node Restaurants
+node DeliveryBoy
+
+Customer .--> FoodDeliveryApp : "Searches for food and places order"
+FoodDeliveryApp "Login".--> Restaurants : "Forwards order to Restaurant"
+Restaurants .> Manager : "Requests to complete order"
+Manager .> DeliveryBoy : "Handovers Food for delivery"
+DeliveryBoy .>Customer : "Completes the order by delivering the food"
+@enduml

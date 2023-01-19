@@ -1,0 +1,45 @@
+@startuml activity_daigram1(a)
+
+start
+:Open the App;
+partition "Login Process"{
+
+if(Registered) then (yes)
+    
+    :Login;
+    if() 
+        :Login Using eMail/PhoneNo;
+    else()
+        :Login Using SocialAccount;
+    endif
+    -> Validate Login;
+
+else (No)
+
+    :Sign Up;
+    if()
+        :SignUp Using eMail/PhoneNo;
+    else()
+        :SignUp Using SocialAccount;
+    endif
+    
+endif
+
+}
+->Login Successful;
+:Search;
+if()
+    :Search Using FoodItem/FoodCategory;
+else()
+    :Search Using RestaurantName;
+endif 
+
+:Add FoodItems;
+:CheckOut;
+if (CheckForOffer) then (yes)
+    :AddDiscount;
+else (no)
+endif
+(A)
+
+@enduml 

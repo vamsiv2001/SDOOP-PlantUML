@@ -1,0 +1,16 @@
+@startuml component_diagram
+
+component FoodDeliveryApp
+component Restaurants
+component Manager
+component DeliveryBoy
+component Customer
+
+Customer .--> FoodDeliveryApp : "Searches for food and places order"
+FoodDeliveryApp .--> Restaurants : "Forwards order to Restaurant"
+Restaurants .> Manager : "Requests to complete order"
+Manager .> DeliveryBoy : "Handovers Food for delivery"
+DeliveryBoy .>Customer : "Completes the order by delivering the food"
+
+
+@enduml

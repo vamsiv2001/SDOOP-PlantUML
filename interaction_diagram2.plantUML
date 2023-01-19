@@ -1,0 +1,40 @@
+@startuml interaction_diagram_2
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+participant "M1:Mobile" order 10
+participant "C1:Customer" order 20
+participant "F1:FoodDelieveryApp" order 30
+participant "D1:Database" order 40
+
+"M1:Mobile" -> "C1:Customer" : 1.LaunchApp
+
+"F1:FoodDelieveryApp" -> "C1:Customer" : 2.Login Or SignUp
+
+group Sign Up
+"C1:Customer" -> "F1:FoodDelieveryApp" : 3.(If signUp is True)
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 4. Enter Details or SignUp with SocialMedia
+"C1:Customer" -> "F1:FoodDelieveryApp" : 5. ReadCustomerDetails(Name,PhoneNo,Address)
+"F1:FoodDelieveryApp" -> "D1:Database" : 6.VerifyCustomerDetails(datalist)
+"D1:Database" -->> "F1:FoodDelieveryApp" : 7. Authenticated
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 8. OTPSentToMobile
+"C1:Customer" -> "F1:FoodDelieveryApp" : 9. OTPEntered
+"F1:FoodDelieveryApp" -> "F1:FoodDelieveryApp" : 10. VerifyingOTP
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 11. SignUp Successful
+"F1:FoodDelieveryApp" -> "D1:Database" : 12. StoreDetails
+"D1:Database" -->> "F1:FoodDelieveryApp" : 13. Saved
+
+end
+
+group Login
+"C1:Customer" -> "F1:FoodDelieveryApp" : 14.[If Login is true]
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 15.Enter Login Details(VariableList)
+"C1:Customer" -> "F1:FoodDelieveryApp" : 16. DetailsEntered
+"F1:FoodDelieveryApp" -> "D1:Database" : 18.VerifyLOginDetails(VariableList)
+"D1:Database" -> "F1:FoodDelieveryApp" : 19.Authenticated
+"F1:FoodDelieveryApp" -->> "C1:Customer" : 20.LoginSuccessful
+
+end
+
+@enduml 

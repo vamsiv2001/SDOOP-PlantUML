@@ -1,0 +1,55 @@
+@startuml State_Diagram3
+
+skinparam Style strictuml
+state "Food Delievery App \nInactive" as fdai
+
+[*] -right-> fdai
+fdai -right-> [*] 
+
+
+state "Food Delievery App \nActive" as fdaa {
+    [*] -right-> CU
+    state "Customer" as CU{
+        CU -right-> CC : Logged IN
+    }
+    state "CartContent" as CC{
+        CC : foodItem1
+        CC : foodItem2
+        CC : foodItemN
+    }
+    state "Checkout" as CH{
+        state "Order" as OR
+        [*] -right-> OR : showSummary
+        OR --> P :SelectPaymentMethod
+        state "Payment" as P {
+            hide empty description 
+            state "chooseMethod" as CM{
+            }
+    
+            [*] -> CM
+            CM --> Ewallet : Select Ewallet
+            Ewallet --> V : ProceedPayment/Validate
+
+            CM -down->  DebitOrCreditCard : Select Debit/CreditCard
+            DebitOrCreditCard -down-> V: ProceedPayment/Validate
+
+            CM --> NetBanking : Select NetBanking
+            NetBanking -right-> V : ProceedPayment/Validate
+            state " Validation" as V{
+            }
+          
+            V-up-> OR :InValid
+        }
+        V -> [*] : Valid
+    }
+    
+    CC --> CC : Add/RemoveItems
+    CC --> CH : Proceed To Checkout
+
+
+}
+
+fdai -down-> fdaa[H]: Open App
+fdaa[H] -right-> fdaa
+fdaa -up-> [*] :EXIT App
+@enduml
